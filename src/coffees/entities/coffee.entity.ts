@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, JoinTable, ManyToMany } from 'typeorm';
+import { Flavor } from './flavor.entity';
 
 @Entity() 
 export class Coffee {
@@ -11,6 +12,10 @@ export class Coffee {
   @Column()
   brand: string;
 
-  @Column('json', { nullable: true })
+  @JoinTable() // 👈 Join the 2 tables - only the OWNER-side does this
+  @ManyToMany(
+    type => Flavor,
+    flavor => flavor.coffees, // what is "coffee" within the Flavor Entity 
+  ) // 👈
   flavors: string[];
 }

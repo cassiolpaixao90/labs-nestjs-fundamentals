@@ -3,9 +3,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Connection } from 'typeorm';
 import { CreateCoffeeDto } from './dto/create-coffee.dto';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto';
+import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { Coffee } from './entities/coffee.entity';
 import { Flavor } from './entities/flavor.entity';
-import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { Event } from 'src/events/entities/event.entity';
 
 @Injectable()
@@ -39,7 +39,7 @@ export class CoffeesService {
     return coffee;
   }
 
-  create(createCoffeeDto: CreateCoffeeDto) {
+  async create(createCoffeeDto: CreateCoffeeDto) {
     const flavors = await Promise.all(
       createCoffeeDto.flavors.map(name => this.preloadFlavorByName(name)),
     );

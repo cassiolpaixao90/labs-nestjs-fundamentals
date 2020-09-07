@@ -2,6 +2,7 @@ import { Controller, Get, Param, Post, Body, Patch, Delete, Query } from '@nestj
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { Public } from 'src/common/decorators/public.decorator';
 import { CoffeesService } from './coffees.service';
+import { ParseIntPipe } from 'src/common/pipes/parse-int.pipe';
 
 @Controller('coffees')
 export class CoffeesController {
@@ -15,8 +16,8 @@ export class CoffeesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.coffeesService.findOne(id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.coffeesService.findOne(String(id));
   }
 
   @Post()

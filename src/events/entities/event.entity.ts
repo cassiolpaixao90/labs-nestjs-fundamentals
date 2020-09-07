@@ -10,7 +10,7 @@ export class Event {
 
   @Index()
   @Column()
-  title: string; 
+  name: string; 
 
   @Column('json')
   payload: Record<string, any>;

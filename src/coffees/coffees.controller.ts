@@ -4,12 +4,17 @@ import { Public } from '../common/decorators/public.decorator';
 import { CoffeesService } from './coffees.service';
 import { ParseIntPipe } from '../common/pipes/parse-int.pipe';
 import { Protocol } from '../common/decorators/protocol.decorator';
+import { ApiTags, ApiForbiddenResponse } from '@nestjs/swagger';
+import { CreateCoffeeDto } from './dto/create-coffee.dto';
+import { UpdateCoffeeDto } from './dto/update-coffee.dto';
 
+@ApiTags('coffees')
 @Controller('coffees')
 export class CoffeesController {
 
   constructor(private readonly coffeesService: CoffeesService) {}
 
+  @ApiForbiddenResponse({ description: 'Forbidden.' })
   @Public()
   @Get()
   findAll(@Protocol('https') protocol: string, @Query() paginationQuery: PaginationQueryDto) {
@@ -23,13 +28,13 @@ export class CoffeesController {
   }
 
   @Post()
-  create(@Body() body) {
-    return this.coffeesService.create(body);
+  create(@Body() createCoffeeDto: CreateCoffeeDto) {
+    return this.coffeesService.create(createCoffeeDto);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() body) {
-    return this.coffeesService.update(id, body);
+  update(@Param('id') id: string, @Body() updateCoffeeDto: UpdateCoffeeDto) {
+    return this.coffeesService.update(id, updateCoffeeDto);
   }
 
   @Delete(':id')

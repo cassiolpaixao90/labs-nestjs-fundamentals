@@ -7,6 +7,7 @@ import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { Coffee } from './entities/coffee.entity';
 import { Flavor } from './entities/flavor.entity';
 import { Event } from 'src/events/entities/event.entity';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class CoffeesService {
@@ -16,15 +17,20 @@ export class CoffeesService {
     private readonly coffeeRepository: Repository<Coffee>,
     @InjectRepository(Flavor)
     private readonly flavorRepository: Repository<Flavor>,
-    private readonly connection: Connection
-  ) {}
+    private readonly connection: Connection,
+    private readonly configService: ConfigService,
+  ) {
+    const databseHost = this.configService.get<string>('DATABASE_HOST', 'localhost');
+    console.log('databseHost', databseHost);
+    
+  }
 
   findAll(paginationQuery: PaginationQueryDto) {
     const { limit, offset } = paginationQuery;
     return this.coffeeRepository.find({
       relations: ['flavors'],
-      skip: offset, // 👈
-      take: limit, // 👈
+      skip: offset,
+      take: limit
     });
   }
 

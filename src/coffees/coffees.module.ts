@@ -6,9 +6,13 @@ import { CoffeesService } from './coffees.service';
 import { Coffee } from './entities/coffee.entity';
 import { Flavor } from './entities/flavor.entity';
 import { Event } from '../events/entities/event.entity';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({ 
-  imports: [TypeOrmModule.forFeature([Coffee, Flavor, Event])],
+  imports: [
+    TypeOrmModule.forFeature([Coffee, Flavor, Event]), 
+    ConfigModule
+  ],
   controllers: [CoffeesController],
   providers: [
     {

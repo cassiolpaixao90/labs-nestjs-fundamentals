@@ -21,9 +21,7 @@ export class CoffeesService {
     private readonly connection: Connection,
     @Inject(coffeesConfig.KEY)
     private coffeesConfiguration: ConfigType<typeof coffeesConfig>
-  ) {
-    console.log(coffeesConfiguration.foo);     
-  }
+  ) {}
 
   findAll(paginationQuery: PaginationQueryDto) {
     const { limit, offset } = paginationQuery;
@@ -39,9 +37,9 @@ export class CoffeesService {
       relations: ['flavors']
     });
     
-    if (!coffee) {
+    if (!coffee) 
       throw new NotFoundException(`Coffee #${id} not found`);
-    }
+    
     return coffee;
   }
 
